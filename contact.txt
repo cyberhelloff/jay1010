@@ -1,0 +1,36 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA256
+
+PGP FINGERPRINT: 0795 34B8 4845 048F 31D4 27F1 E2F3 048B 8821 26B7
+
+Telegram: t.me/devil_anon
+
+Signal: @https.01
+
+Jabber (xmpp): cyberhell@xmpp.jp
+
+Email: devil@bipsy.online
+
+Keybase: keybase.io/cyberhell
+
+Github: github.com/cyberhellcommunity
+
+XSS: xss.is/members/365844/
+
+Darkforest: dkforestseeaaq2dqz2uflmlsybvnq2irzn4ygyvu53oazyorednviid.onion/u/ice
+
+Pitch: pitchprash4aqilfr7sbmuwve3pnkpylqwxjbj2q5o4szcfeea6d27yd.onion/@snake
+
+-----BEGIN PGP SIGNATURE-----
+
+iQGjBAEBCAANBhxiaXBzeQUCZzJXRgAKCRDi8wSLiCEmt966C/98Wk+IuZIf6Vnn
+Lj+SXp9Ky3CTPQhgU5uOvGqG4csXN+x/tctlinnxbUEWJDGkx5ISk89FFkT3Hg9w
+P2ovCa/GoKxZ5s10vM0wr/TA2cF4kAB8f4Odh6DzvfY7F0rl9RvGYnsA99ypoXgG
+4JSV9tiKTF9uAVCKOkR5GB6X48Q0sCvSn+h+WmkElEN1bE24OGzxCKSnPjVXN6ad
+qBfz/d0LCXyF50eKe86fMY5uYNC/fMbuS5M/MQBMVogAWNG4idvSJe+x7VYiowZZ
+m0ldWpohNvYtU2Ue0BVSelgCg03U0QeJd6NoiFynUjyXsyUhY7A2CDDv3K+4CiZ0
+6ROtUELn52CFsEtC5+zoZdgamrUFfAX4z7qgcwebRiuYXhWojr/j8kN29b8WbTlQ
+BjDhETLooKbfbtZBC/m5SIlzy8uUdBqvR636T1uJFDyrSENuZtsBipL7sUlmgVVh
+MZU7Alv23JueJVH8kD352XfxOURN/e4bXhaPKTVLnYE0e6ESTFg=
+=QZRO
+-----END PGP SIGNATURE-----

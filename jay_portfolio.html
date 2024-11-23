@@ -1,0 +1,874 @@
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>@cyber_jayy</title>
+	<link rel="canonical" href="https://bipsy.pages.dev" />
+   
+    </script>
+   
+    
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <style>
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+        body {
+            background-color: #000000;
+            color: #00ff00;
+            font-family: 'VT323', monospace;
+            transition: background-color 1s ease-in-out;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            height: 100vh;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        #musicIcon {
+            position: absolute;
+            top: 100px;
+            left: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            z-index: 1;
+        }
+        .progress-bar-container {
+            width: 80%;
+            height: 4px;
+            background-color: #5a5a5a;
+            margin: 10px auto;
+            position: relative;
+            border-radius: 2px;
+            pointer-events: none;
+            /* Makes it unclickable */
+        }
+        .progress-bar {
+            height: 100%;
+            background-color: #00ff00;
+            width: 0;
+            border-radius: 2px;
+            transition: width 0.1s linear;
+            pointer-events: none;
+            /* Makes it unclickable */
+        }
+        .progress-circle {
+            width: 12px;
+            height: 12px;
+            background-color: #00ff00;
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            cursor: default;
+            pointer-events: none;
+        }
+        .time-display {
+            display: flex;
+            justify-content: space-between;
+            width: 80%;
+            margin: 5px auto;
+            color: #00ff00;
+            font-size: 14px;
+        }
+        .visualizer-container {
+            margin: 20px auto;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .wave-bars {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+            height: 100%;
+        }
+        .bar {
+            width: 8px;
+            background-color: #00ff00;
+            margin: 0 1px;
+            border-radius: 3px;
+            animation: none;
+        }
+@keyframes waveform {
+            0% {
+                height: 10px;
+            }
+            50% {
+                height: 40px;
+            }
+            100% {
+                height: 10px;
+            }
+        }
+        /* Different animation delays for each bar */
+        .wave-bars.active .bar:nth-child(1) {
+            animation: waveform 0.7s ease-in-out infinite;
+        }
+        .wave-bars.active .bar:nth-child(2) {
+            animation: waveform 1.3s ease-in-out infinite;
+        }
+        .wave-bars.active .bar:nth-child(3) {
+            animation: waveform 0.9s ease-in-out infinite;
+        }
+        .wave-bars.active .bar:nth-child(4) {
+            animation: waveform 1.1s ease-in-out infinite;
+        }
+        .wave-bars.active .bar:nth-child(5) {
+            animation: waveform 0.8s ease-in-out infinite;
+        }
+        .wave-bars.active .bar:nth-child(6) {
+            animation: waveform 1.2s ease-in-out infinite;
+        }
+        .wave-bars.active .bar:nth-child(7) {
+            animation: waveform 1.0s ease-in-out infinite;
+        }
+        .wave-bars.active .bar:nth-child(8) {
+            animation: waveform 0.9s ease-in-out infinite;
+        }
+        .wave-bars.active .bar:nth-child(9) {
+            animation: waveform 1.3s ease-in-out infinite;
+        }
+        .wave-bars.active .bar:nth-child(10) {
+            animation: waveform 0.8s ease-in-out infinite;
+        }
+        .wave-bars.active .bar:nth-child(11) {
+            animation: waveform 1.1s ease-in-out infinite;
+        }
+        .wave-bars.active .bar:nth-child(12) {
+            animation: waveform 0.9s ease-in-out infinite;
+        }
+        .wave-bars.active .bar:nth-child(13) {
+            animation: waveform 1.2s ease-in-out infinite;
+        }
+        .wave-bars.active .bar:nth-child(14) {
+            animation: waveform 0.7s ease-in-out infinite;
+        }
+        .wave-bars.active .bar:nth-child(15) {
+            animation: waveform 1.0s ease-in-out infinite;
+        }
+        .bar {
+            height: 10px;
+            transition: height 0.2s ease;
+        }
+        .music-controls button {
+            background-color: #000;
+            color: #00ff00;
+            border: 1px solid #00ff00;
+            padding: 5px 15px;
+            margin: 0 5px;
+            cursor: pointer;
+            font-family: 'VT323', monospace;
+            min-width: 40px;
+        }
+        .music-controls button:hover {
+            background-color: #00ff00;
+            color: #000;
+        }
+        .music-controls {
+            margin: 20px 0;
+            text-align: center;
+        }
+        .music-controls button {
+            background-color: #000;
+            color: #00ff00;
+            border: 1px solid #00ff00;
+            padding: 5px 15px;
+            margin: 0 5px;
+            cursor: pointer;
+            font-family: 'VT323', monospace;
+        }
+        .music-controls button:hover {
+            background-color: #00ff00;
+            color: #000;
+        }
+        #nowPlaying {
+            text-align: center;
+            margin-top: 10px;
+            color: #00ff00;
+            font-family: 'VT323', monospace;
+        }
+        #cyberhellIcon img {
+            width: 42px;
+            height: 42px;
+        }
+        #musicIcon img {
+            width: 42px;
+            height: 42px;
+            margin-bottom: 5px;
+        }
+        #musicIcon span {
+            color: #00ff00;
+            font-size: 14px;
+            text-align: center;
+        }
+        .desktop-icon {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            z-index: 1;
+        }
+        .desktop-icon img {
+            width: 32px;
+            height: 32px;
+            margin-bottom: 5px;
+        }
+        .desktop-icon span {
+            color: #00ff00;
+            font-size: 14px;
+            text-align: center;
+        }
+        #cyberhellModal {
+            display: none;
+            position: fixed;
+            z-index: 2;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+        #cyberhellModal .modal-content {
+            background-color: #0c0c0c;
+            margin: 10% auto;
+            padding: 20px;
+            border: 1px solid #00ff00;
+            width: 80%;
+            position: relative;
+        }
+        .matrix-rain {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        .rain-particle {
+            position: absolute;
+            width: 2px;
+            height: 8px;
+            background-color: #00ff00;
+            animation: rain-fall 3s linear infinite;
+        }
+@keyframes rain-fall {
+            0% {
+                opacity: 1;
+                transform: translateY(-100vh);
+            }
+            80% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(100vh);
+            }
+        }
+        .taskbar {
+            background-color: rgba(0, 0, 0, 0.5);
+            border-top: 1px solid #00ff00;
+            height: 50px;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            padding: 0 10px;
+            box-sizing: border-box;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+        }
+        .start-button, .about-button {
+            background-color: rgba(0, 0, 0, 0.5);
+            border: 1px solid #00ff00;
+            padding: 5px 10px;
+            cursor: pointer;
+            color: #00ff00;
+            margin-right: 10px;
+        }
+        .clock {
+            position: absolute;
+            right: 10px;
+            color: #00ff00;
+        }
+        .battery-status {
+            position: absolute;
+            margin-left: auto;
+            margin-right: 5px;
+            right: 80px;
+            display: flex;
+            align-items: center;
+            color: #00ff00;
+        }
+        .battery-percentage {
+            margin-right: 5px;
+        }
+        .battery-icon {
+            width: 20px;
+            height: 10px;
+            border: 1px solid #00ff00;
+            padding: 1px;
+            position: relative;
+        }
+        .battery-icon:after {
+            content: '';
+            height: 4px;
+            width: 2px;
+            background: #00ff00;
+            position: absolute;
+            top: 50%;
+            right: -3px;
+            transform: translateY(-50%);
+        }
+        .battery-level {
+            height: 100%;
+            background: #ffff00;
+            transition: width 0.3s ease;
+        }
+        .menu {
+            position: absolute;
+            bottom: -350px;
+            left: 50%;
+            font-size: 18px;
+            transform: translateX(-50%);
+            background-color: #0c0c0c;
+            border: 1px solid #00ff00;
+            padding: 10px;
+            z-index: 1;
+            transition: bottom 0.3s ease-in-out;
+        }
+@media (min-width: 769px) {
+            .menu {
+                left: 20px;
+                transform: none;
+            }
+        }
+        .menu.open {
+            bottom: 135px;
+        }
+        .menu a {
+            display: block;
+            color: #00ff00;
+            text-decoration: none;
+            padding: 5px 10px;
+            margin: 2px 0;
+            transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+        }
+        .menu a:hover, .menu a:hover span {
+            background-color: #00ff00;
+            color: #000;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+        .modal-content {
+            background-color: #0c0c0c;
+            margin: 10% auto;
+            padding: 20px;
+            border: 1px solid #00ff00;
+            width: 80%;
+            position: relative;
+            font-size: 17px;
+        }
+        .close {
+            color: #00ff00;
+            font-size: 28px;
+            font-weight: bold;
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            cursor: pointer;
+        }
+        .close:hover {
+            color: #f00;
+        }
+        .devil-gif {
+            max-width: 360px;
+            max-height: 360px;
+        }
+        .blink {
+            animation: blink 1s infinite;
+        }
+@keyframes blink {
+            50% {
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="matrix-rain"></div>
+    <div class="desktop-icon" id="musicIcon">
+        <img src="music.png" alt="Music Player">
+        <span>Music Player</span>
+    </div>
+    <audio id="audioPlayer"></audio>
+    <div id="musicModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Music Player</h2>
+            <div class="music-controls">
+                <button id="backBtn" style="display: none;">⏮️</button>
+                <button id="playPauseBtn">▶️</button>
+                <button id="nextBtn">⏭️</button>
+            </div>
+            <p id="nowPlaying">
+                Now Playing:
+            </p>
+            <div style="text-align: center; margin: 10px 0;">
+                <img id="coverImage" style="width: 100px; height: 100px;">
+                <p id="songTitle" style="color: #00ff00; margin-top: 10px;"></p>
+            </div>
+            <div class="visualizer-container">
+                <div class="wave-bars">
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                </div>
+            </div>
+            <div class="progress-bar-container">
+                <div class="progress-bar"></div>
+                <div class="progress-circle"></div>
+            </div>
+            <div class="time-display">
+                <span id="currentTime">0:00</span>
+                <span id="duration">0:00</span>
+            </div>
+        </div>
+    </div>
+    <div class="desktop-icon" id="cyberhellIcon">
+        <img src="cyberjay.jpg" alt="CyberHell">
+        <span>C¥B€R JAY</span>
+    </div>
+    <div id="cyberhellModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>C¥B€R JAY</h2>
+            <p>
+                My most significant foundation which began as a funny idea between myself in 2020 and later became a reality around 2021-2022 when i migrated to Telegram. C¥B€R GUIDE was formed specifically to deliver high-quality blackhat tutorials and guides, as i and my team aim to build up a skilled audience, share insights, and foster a hacking community for the next wave of blackhat enthusiasts.
+            </p>
+            <br>
+               
+           
+           
+            
+            <p>
+                Telegram: <a href="https://t.me/cyber_jayy" style="text-decoration: underline; color: yellow;" target="_blank">t.me/cyber_jayy</a>
+            </p>
+            <p>
+                Telegram community: <a href="https://t.me/cyber_guide_telugu" style="text-decoration: underline; color: yellow;" target="_blank">t.me/cyber_guide_telugu</a>
+            </p>
+            <p>
+                Keybase: <a href="https://keybase.io/cyber_jayy style="text-decoration: underline; color: yellow;" target="_blank">keybase.io/cyber_jayy</a>
+            </p>
+            <p>
+                Github: <a href="https://github.com/cyberhelloff" style="text-decoration: underline; color: yellow;" target="_blank">github.com/cyberhelloff</a>
+            </p>
+        </div>
+    </div>
+    <img src="devil.gif" alt="Jay GIF" class="devil-gif">
+    <div id="quote-container"></div>
+    <div id="author-container"></div>
+    <div class="taskbar">
+        <div class="start-button">
+            Start
+        </div>
+        <div class="about-button">
+            About_Me.txt
+        </div>
+        <div class="battery-status">
+            <span class="battery-percentage"></span>
+            <div class="battery-icon">
+                <div class="battery-level"></div>
+            </div>
+        </div>
+        <div class="clock"></div>
+    </div>
+</div>
+</div>
+</div>
+<div class="menu">
+<a href="https://t.me/cyber_jayy" target="_blank">Telegram Contact</a>
+<a href="contact.txt" target="_blank">Contact details</a>
+<a href="pgp.txt" target="_blank">PGP Key</a>
+<a href="donate.txt" target="_blank">Donate</a>
+</div>
+<div id="myModal" class="modal">
+<div class="modal-content">
+<span class="close">&times;</span>
+<h2>About_Me.txt</h2>
+<p>
+I'm a random internet user who's proficient in cybersecurity, fullstack web dev, scripting, and maldev. C#, Ruby, Python, JS, and Rust are languages i'm well-versed in. Sometimes i participate in CTF challenges mostly related to red-teaming and reverse-engineering. I love reddit and i do NOT use Arch btw.
+</p>
+</div>
+</div>
+<script>
+// Music Player functionality
+const musicList = [
+    'Borderline Barbie - Wopsy.mp3',
+    'Good For You X One Of The Girls - Dreamsoda.mp3',
+    "On My Mind - Lynnic Itsarius Kezano.mp3",
+    "Can't Feel Myself - dadanny.mp3",
+    'I LUV IT (feat. Playboi Carti).mp3'
+];
+const audioPlayer = document.getElementById('audioPlayer');
+const musicIcon = document.getElementById('musicIcon');
+const musicModal = document.getElementById('musicModal');
+const backBtn = document.getElementById('backBtn');
+const playPauseBtn = document.getElementById('playPauseBtn');
+const nextBtn = document.getElementById('nextBtn');
+const nowPlaying = document.getElementById('nowPlaying');
+const waveContainer = document.querySelector('.wave-bars');
+const coverImage = document.getElementById('coverImage');
+let currentTrack = 0;
+let isPlaying = false;
+let playHistory = [];
+let audioContext, analyser, dataArray;
+let animationTime = 0;
+let lastTimestamp = 0;
+function createDefaultCover() {
+    const canvas = document.createElement('canvas');
+    canvas.width = 120;
+    canvas.height = 120;
+    const ctx = canvas.getContext('2d');
+    // Background
+    ctx.fillStyle = '#000000';
+    ctx.fillRect(0, 0, 120, 120);
+    // Border
+    ctx.strokeStyle = '#00ff00';
+    ctx.lineWidth = 2;
+    ctx.strokeRect(1, 1, 118, 118);
+    // Create three music notes with different positions
+    const notes = [
+        { x: 30, y: 40 },
+        { x: 60, y: 60 },
+        { x: 90, y: 80 }
+    ];
+    notes.forEach((note, index) => {
+        const offset = Math.sin(animationTime * 2 + index) * 10;
+        ctx.fillStyle = '#00ff00';
+        ctx.font = '40px Arial';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('♪', note.x, note.y + offset);
+    });
+    return canvas.toDataURL();
+}
+function updateCoverArt(timestamp) {
+    if (!lastTimestamp) lastTimestamp = timestamp;
+    const deltaTime = (timestamp - lastTimestamp) / 1000;
+    if (isPlaying) {
+        animationTime += deltaTime;
+        coverImage.src = createDefaultCover();
+        requestAnimationFrame(updateCoverArt);
+    }
+    lastTimestamp = timestamp;
+}
+function initAudio() {
+    audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    analyser = audioContext.createAnalyser();
+    const source = audioContext.createMediaElementSource(audioPlayer);
+    source.connect(analyser);
+    analyser.connect(audioContext.destination);
+    analyser.fftSize = 32;
+    dataArray = new Uint8Array(analyser.frequencyBinCount);
+}
+function updateVisualizer() {
+    requestAnimationFrame(updateVisualizer);
+    const bars = waveContainer.children;
+    if (!audioPlayer.paused) {
+        waveContainer.classList.add('active');
+        analyser.getByteFrequencyData(dataArray);
+        for (let i = 0; i < bars.length; i++) {
+            const barHeight = dataArray[i] / 255 * 50;
+            bars[i].style.height = barHeight + 'px';
+        }
+    } else {
+        waveContainer.classList.remove('active');
+        for (let i = 0; i < bars.length; i++) {
+            bars[i].style.height = '10px';
+        }
+    }
+}
+function loadAndPlayTrack() {
+    const track = musicList[currentTrack];
+    const songTitleWithoutExtension = track.replace('.mp3', '');
+    audioPlayer.src = track;
+    nowPlaying.textContent = 'Now Playing:';
+    document.getElementById('songTitle').textContent = songTitleWithoutExtension;
+    audioPlayer.onerror = function() {
+        console.error('Error loading audio file:', track);
+        console.error('Error code:', audioPlayer.error.code);
+    };
+    audioPlayer.play().then(() => {
+        isPlaying = true;
+        playPauseBtn.textContent = '⏸️';
+        lastTimestamp = performance.now();
+        requestAnimationFrame(updateCoverArt);
+    }).catch(error => {
+        console.error('Playback failed:', error);
+        isPlaying = false;
+        playPauseBtn.textContent = '▶️';
+        coverImage.src = createDefaultCover();
+    });
+    backBtn.style.display = playHistory.length > 0 ? 'inline': 'none';
+}
+function togglePlayPause() {
+    if (isPlaying) {
+        audioPlayer.pause();
+        playPauseBtn.textContent = '▶️';
+        coverImage.src = createDefaultCover(); // Freezes at current position
+    } else {
+        audioPlayer.play();
+        playPauseBtn.textContent = '⏸️';
+        lastTimestamp = performance.now(); // Reset timestamp for smooth continuation
+        requestAnimationFrame(updateCoverArt);
+    }
+    isPlaying = !isPlaying;
+}
+function playNextTrack() {
+    playHistory.push(currentTrack);
+    currentTrack = (currentTrack + 1) % musicList.length;
+    loadAndPlayTrack();
+}
+function playPreviousTrack() {
+    if (playHistory.length > 0) {
+        currentTrack = playHistory.pop();
+        loadAndPlayTrack();
+    }
+}
+// Event Listeners
+musicIcon.onclick = function() {
+    musicModal.style.display = "block";
+    if (!audioContext) {
+        initAudio();
+        updateVisualizer();
+    }
+    if (!audioPlayer.src) {
+        loadAndPlayTrack();
+    }
+}
+playPauseBtn.onclick = togglePlayPause;
+nextBtn.onclick = playNextTrack;
+backBtn.onclick = playPreviousTrack;
+// Auto-play next track when current track ends
+audioPlayer.addEventListener('ended', playNextTrack);
+// Handle modal close
+document.querySelector('#musicModal .close').addEventListener('click', function() {
+musicModal.style.display = "none";
+updateVisualizer(false);
+});
+// Close modal when clicking outside
+window.addEventListener('click', function(event) {
+if (event.target == musicModal) {
+musicModal.style.display = "none";
+updateVisualizer(false);
+}
+});
+// Disable right-click
+document.addEventListener('contextmenu', function (e) {
+e.preventDefault();
+});
+// Disable view source and developer tools
+document.addEventListener('keydown', function (event) {
+if (event.ctrlKey && (event.keyCode === 85 || event.keyCode === 83 || event.keyCode === 73)) {
+event.preventDefault();
+} else if (event.keyCode === 123 || (event.ctrlKey && event.shiftKey && event.keyCode === 73)) {
+event.preventDefault();
+return false;
+}
+});
+// Toggle menu
+const startButton = document.querySelector('.start-button');
+const menu = document.querySelector('.menu');
+startButton.addEventListener('click', function () {
+menu.classList.toggle('open');
+});
+// Setup modals
+const cyberhellModal = document.getElementById("cyberhellModal");
+const cyberhellIcon = document.getElementById("cyberhellIcon");
+const modal = document.getElementById("myModal");
+const btn = document.querySelector(".about-button");
+// Setup all close buttons
+const closeButtons = document.querySelectorAll('.close');
+closeButtons.forEach(button => {
+button.addEventListener('click', function() {
+const modal = this.closest('.modal');
+if (modal) {
+modal.style.display = "none";
+}
+});
+});
+// Modal open buttons
+cyberhellIcon.onclick = function() {
+cyberhellModal.style.display = "block";
+}
+btn.onclick = function() {
+modal.style.display = "block";
+}
+// Unified window click handler
+window.onclick = function(event) {
+// For all modals
+if (event.target == modal) {
+modal.style.display = "none";
+}
+if (event.target == cyberhellModal) {
+cyberhellModal.style.display = "none";
+}
+if (event.target == musicModal) {
+musicModal.style.display = "none";
+}
+// For menu closing when clicking outside
+const isClickInsideMenu = menu.contains(event.target);
+const isClickOnStartButton = event.target === startButton;
+if (!isClickInsideMenu && !isClickOnStartButton && menu.classList.contains('open')) {
+menu.classList.remove('open');
+}
+};
+// Clock
+function updateClock() {
+const clockElement = document.querySelector('.clock');
+const now = new Date();
+let hours = now.getHours();
+const minutes = now.getMinutes();
+const ampm = hours >= 12 ? 'pm': 'am';
+hours = hours % 12;
+hours = hours ? hours: 12;
+const formattedTime = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')} ${ampm}`;
+clockElement.textContent = formattedTime;
+}
+// Update the clock every second
+setInterval(updateClock, 1000);
+// Battery status
+function updateBattery() {
+if ('getBattery' in navigator) {
+navigator.getBattery().then(battery => {
+function updateBatteryStatus() {
+const percentage = Math.floor(battery.level * 100);
+document.querySelector('.battery-percentage').textContent = `${percentage}%`;
+document.querySelector('.battery-level').style.width = `${percentage}%`;
+}
+updateBatteryStatus();
+battery.addEventListener('levelchange', updateBatteryStatus);
+});
+} else {
+document.querySelector('.battery-status').style.display = 'none';
+}
+}
+// Call updateBattery when the page loads
+updateBattery();
+// Create matrix rain particles
+const matrixRain = document.querySelector('.matrix-rain');
+const rainParticles = [];
+function createRainParticle() {
+const particle = document.createElement('div');
+particle.classList.add('rain-particle');
+particle.style.left = `${Math.random() * 100}vw`;
+particle.style.animationDelay = `${Math.random() * -10}s`;
+matrixRain.appendChild(particle);
+rainParticles.push(particle);
+}
+function removeRainParticle(particle) {
+particle.remove();
+rainParticles.splice(rainParticles.indexOf(particle), 1);
+}
+setInterval(() => {
+for (let i = 0; i < 5; i++) {
+// Create 5 rain particles per interval
+createRainParticle();
+}
+}, 100);
+setInterval(() => {
+const particlesToRemove = rainParticles.filter(particle => {
+const particleRect = particle.getBoundingClientRect();
+return particleRect.top >= window.innerHeight || particleRect.bottom <= 0;
+});
+particlesToRemove.forEach(particle => removeRainParticle(particle));
+}, 1000);
+const quote = "Wisdom begins where certainty ends.";
+const author = "-- bipsy";
+const quoteContainer = document.getElementById('quote-container');
+const authorContainer = document.getElementById('author-container');
+const quoteDelay = 100;
+const authorDelay = 50;
+function typeWriter(text, index, element, delay = 0, charDelay, callback = null) {
+if (index < text.length) {
+setTimeout(() => {
+if (text.charAt(index) === '.') {
+const blinkSpan = document.createElement('span');
+blinkSpan.textContent = '.';
+blinkSpan.classList.add('blink');
+element.appendChild(blinkSpan);
+} else {
+element.innerHTML += text.charAt(index);
+}
+element.scrollTop = element.scrollHeight;
+typeWriter(text, index + 1, element, delay, charDelay, callback);
+},
+charDelay + delay);
+} else if (callback) {
+callback();
+}
+}
+// Delay the typewriter effects
+window.onload = function() {
+setTimeout(function() {
+typeWriter(quote, 0, quoteContainer, 0, quoteDelay, () => {
+typeWriter(author, 0, authorContainer, 0, authorDelay);
+});
+}, 1500);
+};
+</script>
+<script>
+const progressBar = document.querySelector('.progress-bar');
+const progressCircle = document.querySelector('.progress-circle');
+const currentTimeDisplay = document.getElementById('currentTime');
+const durationDisplay = document.getElementById('duration');
+// Only update progress bar as audio plays
+audioPlayer.addEventListener('timeupdate', () => {
+const progress = (audioPlayer.currentTime / audioPlayer.duration) * 100;
+progressBar.style.width = `${progress}%`;
+progressCircle.style.left = `${progress}%`;
+// Update time displays
+currentTimeDisplay.textContent = formatTime(audioPlayer.currentTime);
+durationDisplay.textContent = formatTime(audioPlayer.duration);
+});
+// Format time in minutes:seconds
+function formatTime(seconds) {
+if (isNaN(seconds)) return "0:00";
+const minutes = Math.floor(seconds / 60);
+const remainingSeconds = Math.floor(seconds % 60);
+return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+}
+</script>
+
+</html>
